@@ -1,8 +1,5 @@
 package com.koushikdutta.async.http.socketio;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.os.Handler;
 import android.text.TextUtils;
 
@@ -10,13 +7,16 @@ import com.codebutler.android_websockets.WebSocketClient;
 import com.koushikdutta.http.AsyncHttpClient;
 import com.koushikdutta.http.AsyncHttpClient.SocketIORequest;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class SocketIOClient extends EventEmitter {
 
     boolean connected;
     boolean disconnected;
     Handler handler;
 
-    private void emitRaw(int type, String message, Acknowledge acknowledge) {
+    public void emitRaw(int type, String message, Acknowledge acknowledge) {
         connection.emitRaw(type, this, message, acknowledge);
     }
 
