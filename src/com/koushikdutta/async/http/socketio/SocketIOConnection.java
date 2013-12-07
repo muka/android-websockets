@@ -1,15 +1,5 @@
 package com.koushikdutta.async.http.socketio;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Hashtable;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.os.Handler;
 import android.text.TextUtils;
 
@@ -17,6 +7,16 @@ import com.codebutler.android_websockets.WebSocketClient;
 import com.codebutler.android_websockets.WebSocketClient.Listener;
 import com.koushikdutta.http.AsyncHttpClient;
 import com.koushikdutta.http.AsyncHttpClient.SocketIORequest;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Hashtable;
 
 /**
  * Created by koush on 7/1/13.
@@ -158,11 +158,7 @@ class SocketIOConnection {
                                     break;
                                 }
                                 case 5: {
-                                    final String dataString = parts[3];
-                                    final JSONObject data = new JSONObject(dataString);
-                                    final String event = data.getString("name");
-                                    final JSONArray args = data.optJSONArray("args");
-                                    reportEvent(parts[2], event, args, acknowledge(parts[1]));
+                                    reportEvent(parts[2], parts[3], acknowledge(parts[1]));
                                     break;
                                 }
                                 case 6:
@@ -385,7 +381,7 @@ class SocketIOConnection {
         });
     }
 
-    private void reportEvent(String endpoint, final String event, final JSONArray arguments, final Acknowledge acknowledge) {
+    private void reportEvent(String endpoint, final String data, final Acknowledge acknowledge) {
         select(endpoint, new SelectCallback() {
             @Override
             public void onSelect(final SocketIOClient client) {
@@ -393,7 +389,7 @@ class SocketIOConnection {
 
                     @Override
                     public void run() {
-                        client.onEvent(event, arguments, acknowledge);
+                        client.onEvent(data, acknowledge);
 
                     }
                 });
