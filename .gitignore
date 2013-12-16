@@ -1,6 +1,5 @@
-gen/
-build/
+bin
+gen
+.classpath
+.project
 local.properties
-.gradle
-.idea
-*.iml
